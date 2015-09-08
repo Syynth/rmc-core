@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/index.js"],"names":[],"mappings":";;;;;;;;6BAE8B,iBAAiB;;;;;0BAAtC,aAAa","file":"index.js","sourcesContent":["// export { ComponentRegistry } from './registry'\r\n// export { renderData, RmcRenderer } from './renderer'\r\nexport { createElement } from './createElement'\r\n"]}

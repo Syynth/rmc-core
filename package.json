@@ -1,0 +1,36 @@
+{
+  "name": "rmc-core",
+  "version": "0.1.0",
+  "description": "React Meta Components Core",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "jest -c jest.config.json",
+    "docs": "jsdoc src -c jsdoc.config.json -d docs",
+    "build": "babel src --out-dir lib -s"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Syynth/rmc-core.git"
+  },
+  "keywords": [
+    "React",
+    "component",
+    "builder",
+    "meta",
+    "wyswig"
+  ],
+  "author": "Ben Cochrane <ben.cochrane2112@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Syynth/rmc-core/issues"
+  },
+  "homepage": "https://github.com/Syynth/rmc-core#readme",
+  "dependencies": {
+    "react": "^0.14.0-beta1",
+    "react-dom": "^0.14.0-beta1"
+  },
+  "devDependencies": {
+    "babel-jest": "^5.3.0",
+    "jest-cli": "^0.5.1"
+  }
+}
