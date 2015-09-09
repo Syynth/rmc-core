@@ -1,6 +1,6 @@
 {
   "name": "rmc-core",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "React Meta Components Core",
   "main": "lib/index.js",
   "scripts": {
