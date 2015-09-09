@@ -1,7 +1,7 @@
 import { createElement } from 'react'
 
-isString = o => typeof o === 'string' || typeof o === 'String';
-isFunction = o => typeof o === 'function';
+const isString = o => typeof o === 'string' || typeof o === 'String';
+const isFunction = o => typeof o === 'function';
 
 function lookupComponent(tagName) {
   return tagName;
