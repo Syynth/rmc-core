@@ -1,4 +1,4 @@
-jest.dontMock('../createElement');
+/*jest.dontMock('../createElement');
 jest.dontMock('../../test-data/simple-div.json');
 
 const createElement = require('../createElement').createElement;
@@ -20,3 +20,4 @@ describe('createElement function', () => {
   })
 
 });
+*/
