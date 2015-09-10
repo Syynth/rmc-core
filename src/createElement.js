@@ -1,7 +1,6 @@
 import { createElement } from 'react'
 
-const isString = o => typeof o === 'string' || typeof o === 'String';
-const isFunction = o => typeof o === 'function';
+import { isString, isFunction } from './utils'
 
 function lookupComponent(tagName) {
   return tagName;
