@@ -1,17 +1,15 @@
+import { isString, isFunction, isObject } from './utils'
 
 const map = Symbol('map');
-const set = Symbol('set');
-const render = Symbol('render');
+const expose = Symbol('expose');
+const string = Symbol('string');
+const func = Symbol('func');
+const object = Symbol('object');
 
 class ComponentRegistry {
 
-  constructor({ renderFn, preload, freeze = false }) {
+  constructor({ preload, freeze = false } = {}) {
     this[map] = new Map();
-    this[set] = new Set();
-    if (!renderFn) {
-      throw new TypeError('Component Registry must be given a render function');
-    }
-    this[render] = renderFn;
     if (preload) {
       Object.keys(preload)
         .forEach(key => this.register(key, preload[key]));
@@ -25,25 +23,48 @@ class ComponentRegistry {
       Object.freeze(this);
       Object.preventExtensions(this);
     }
-
   }
 
-  register(name, component) {
-    let componentJSON = JSON.stringify(component);
-    if (this[set].has(componentJSON) || this[map].has(name)) {
+  [expose](name, component)  {
+    if (component.type === null) {
+      throw new TypeError('You can only register strings, functions, and ' +
+                          'objects as components');
+    }
+    if (this[map].has(name)) {
       throw new Error('You cannot add the same component to a registry twice!');
     }
-    this[set].add(componentJSON);
     this[map].set(name, component);
     Object.defineProperty(this, name, {
       configurable: true,
-      get: () => _ => this[render](this[map].get(name), this)
+      get: () => this[map].get(name).value
     });
     return this;
   }
 
+  register(name, cmp) {
+    let type = isString(cmp) ? string :
+      (isFunction(cmp) ? func : (isObject(cmp) ? object : null));
+    if (!cmp) type = null;
+    return this[expose](name, { type, value: cmp });
+  }
+
+  get nativeValues() {
+    let arr = [];
+    for (let entry of this[map].entries()) { arr.push(entry) }
+    return arr.filter(([k, v]) => v.type != object)
+      .map(([k, v]) => [k, v.value])
+      .reduce((memo, [k, v]) => memo[k] = v && memo, {});
+  }
+
+  get objectValues() {
+    let arr = [];
+    for (let entry of this[map].entries()) { arr.push(entry) }
+    return arr.filter(([k, v]) => v.type == object)
+      .map(([k, v]) => [k, v.value])
+      .reduce((memo, [k, v]) => memo[k] = v && memo, {});
+  }
+
   deregister(name) {
-    this[set].delete(JSON.stringify(this[map].get(name)));
     this[map].delete(name);
     delete this[name];
     return this;
