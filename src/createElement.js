@@ -6,7 +6,7 @@ function lookup(tagName, r) {
 }
 
 function map(children, r) {
-  return children.map(child => str(child) ? child : render(child));
+  return children.map(child => str(child) ? child : render(child, r));
 }
 
 function render({ tagName, props, children }, r = {}) {
