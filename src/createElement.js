@@ -12,7 +12,7 @@ function mapChildren(children) {
 
 function render(element, props, ...children) {
   let el = (str(element) || fn(element)) ? element : lookup(element.tagName);
-  return createElement(el, props, mapChildren(...children));
+  return createElement(el, props, mapChildren(children));
 }
 
 export { render as createElement };
