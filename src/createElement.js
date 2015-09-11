@@ -1,17 +1,18 @@
 import { createElement } from 'react'
 
-import { isString, isFunction } from './utils'
+import { isString as str, isFunction as fn } from './utils'
 
-function lookupComponent(tagName) {
+function lookup(tagName) {
   return tagName;
 }
 
+function mapChildren(children) {
+  return children.map(child => isString(child) ? child : render(child));
+}
+
 function render(element, props, ...children) {
-  if (isString(element) || isFunction(element)) {
-    return createElement(element, props, ...children.map(render));
-  }
-  const tagConstructor = lookupComponent(element.tagName);
-  return createElement(tagConstructor, props, ...children.map(render));
+  let el = (str(element) || fn(element)) ? element : lookup(element.tagName);
+  return createElement(el, props, mapChildren(...children));
 }
 
 export { render as createElement };
