@@ -1,4 +1,5 @@
 import { isString, isFunction, isObject } from './utils'
+import { getRenderer } from './renderer'
 
 const map = Symbol('map');
 const expose = Symbol('expose');
@@ -34,10 +35,12 @@ class ComponentRegistry {
       throw new Error('You cannot add the same component to a registry twice!');
     }
     this[map].set(name, component);
-    Object.defineProperty(this, name, {
-      configurable: true,
-      get: () => this[map].get(name).value
-    });
+    let r;
+    let get = component.type == object ?
+      (r = getRenderer(component.value), () => r)
+    :
+      () => this[map].get(name).value;
+    Object.defineProperty(this, name, { get, configurable: true });
     return this;
   }
 
