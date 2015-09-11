@@ -1,34 +1,11 @@
-import { Component, createElement, DOM, PropTypes } from 'react'
+import { Component } from 'react'
 
-export function renderData(data, registry) {
-  if (typeof data === 'string' || data instanceof String) {
-    return data;
-  }
-  let { children, tagName, props } = data;
-  let kids = children.map(child => renderData(child, registry));
-  let tagFn = tagName[0] == tagName[0].toLowerCase() ?
-      DOM[tagFn]
-    :
-      registry[tagName];
-  return tagFn(props, ...kids);
-}
+import { createElement } from './createElement'
 
-export class RmcRenderer extends Component {
-  render() {
-    return renderData(this.props.data, this.context.registry);
+export function getRenderer(component) {
+  return class RmcRenderer extends Component {
+    render() {
+      return createElement(component);
+    }
   }
 }
-
-RmcRenderer.propTypes = {
-  data: PropTypes.shapeOf({
-    tagName: PropTypes.string.isRequired,
-    props: PropTypes.object.isRequired,
-    children: PropTypes.arrayOf(PropTypes.oneOf([
-      PropTypes.string, PropTypes.object
-    ])).isRequired
-  })
-};
-
-RmcRenderer.contextTypes = {
-  registry: PropTypes.object
-};
