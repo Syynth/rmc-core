@@ -1,5 +1,4 @@
 import { createElement } from 'react'
-
 import { isString as str, isFunction as fn } from './utils'
 
 function lookup(tagName, r) {
@@ -7,7 +6,7 @@ function lookup(tagName, r) {
 }
 
 function map(children, r) {
-  return children.map(child => isString(child) ? child : render(child));
+  return children.map(child => str(child) ? child : render(child));
 }
 
 function render({ tagName, props, children }, r = {}) {
