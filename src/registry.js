@@ -37,7 +37,7 @@ class ComponentRegistry {
     this[map].set(name, component);
     let r;
     let get = component.type == object ?
-      (r = getRenderer(component.value), () => r)
+      (r = getRenderer(component.value, this), () => r)
     :
       () => this[map].get(name).value;
     Object.defineProperty(this, name, { get, configurable: true });
